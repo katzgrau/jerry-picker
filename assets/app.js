@@ -101,26 +101,33 @@ angular.module('jerry', [])
     }
 
     $scope.init = function() {
-        var t;
-        $http.get('/data/grateful-dead.json')
-            .success(function(data) {
-                angular.copy(data, $scope.data.shows);
+        var t, process = function(data) {
+            angular.copy(data, $scope.data.shows);
 
-                for (var i in $scope.data.shows) {
-                    for (var j in $scope.data.shows[i].setlist) {
-                        t = $scope.data.shows[i].setlist[j];
-                        t.show = $scope.data.shows[i];
-                        t.searchable = t.title.toLowerCase() + ' ' +
-                            $scope.data.shows[i].date + ' ' +
-                            $scope.data.shows[i].location.toLowerCase() + ' ' +
-                            $scope.data.shows[i].title.toLowerCase();
+            for (var i in $scope.data.shows) {
+                for (var j in $scope.data.shows[i].setlist) {
+                    t = $scope.data.shows[i].setlist[j];
+                    t.show = $scope.data.shows[i];
+                    t.searchable = t.title.toLowerCase() + ' ' +
+                    $scope.data.shows[i].date + ' ' +
+                    $scope.data.shows[i].location.toLowerCase() + ' ' +
+                    $scope.data.shows[i].title.toLowerCase();
 
-                        $scope.data.tracks.push(t)
-                    }
+                    $scope.data.tracks.push(t)
                 }
+            }
 
-                $scope.data.tracks.sort($scope.trackSort)
-            });
+            $scope.data.tracks.sort($scope.trackSort)
+        };
+
+        if(window.bootstrap) {
+            process(window.bootstrap);
+        } else {
+            $http.get('/assets/data/grateful-dead.json')
+                .success(function(data) {
+                    process(data);
+                });
+        }
 
         soundManager.setup({
             url: 'assets/vendor/sound/swf/',

@@ -94,5 +94,5 @@ foreach ($shows as $show) {
 }
 
 echo "Imported $show_count shows, $track_count tracks total";
-file_put_contents(dirname(__FILE__) . '/../data/grateful-dead.json', json_encode($list));
+file_put_contents(dirname(__FILE__) . '/../assets/data/grateful-dead.json', json_encode($list));
 

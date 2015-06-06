@@ -49,6 +49,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.js"></script>
         <script src="assets/vendor/sound/script/soundmanager2-nodebug-jsmin.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+        <?php if(index_config('is_build')): ?>
+        <script>window.bootstrap = <?php readfile('assets/data/grateful-dead.json') ?></script>
+        <?php endif; ?>
         <script src="assets/app.js"></script>
     </body>
 </html>

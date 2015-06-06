@@ -20,8 +20,8 @@ $index = Index::instance();
 $index->route('/?', 'index');
 
 /* Config */
-$index->config('site_name', 'Broadstreet Ads');
-$index->config('site_url', 'http://broadstreetads.com');
+$index->config('site_name', '');
+$index->config('site_url', '');
 
 /**
  * index.php, maybe the most portable micro MVC framework. It
