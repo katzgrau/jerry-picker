@@ -192,3 +192,7 @@ body {
 .player-icon:hover {
     color: white;
 }
+
+.quick-filter:hover {
+    color: #E91E63;
+}
