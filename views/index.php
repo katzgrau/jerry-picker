@@ -32,8 +32,8 @@
                                 <span class="play-sprite active" ng-show="data.playingIndex == $index && data.isPaused" ng-click="unPause()"><i class="fa fa-play-circle-o"></i></span>
                             </td>
                             <td class="title">{{track.title}}</td>
-                            <td class="date">{{track.show.date}}</td>
-                            <td class="location">{{track.show.location}}</td>
+                            <td class="date"><span class="quick-filter" ng-click="setFilter(track.show.date)">{{track.show.date}}</span></td>
+                            <td class="location"><span class="quick-filter" ng-click="setFilter(track.show.location)">{{track.show.location}}</span></td>
                         </tr>
                     </table>
                 </div>
