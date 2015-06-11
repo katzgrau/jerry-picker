@@ -1,8 +1,13 @@
 <html>
     <head>
-        <title>Jerry Picker</title>
+        <title>Search and Listen to Live Grateful Dead | Jerry Picker</title>
+        <meta name="description" content="Search over and listen to a huge collection of live Grateful Dead recordings">
         <link href="assets/app.css" media="screen" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" media="screen" rel="stylesheet" />
+        <meta property="og:title" content="Jerry Picker: Search and listen to live Grateful Dead shows" />
+        <meta property="og:site_name" content="Jerry Picker"/>
+        <meta property="og:url" content="http://katzgrau.github.io/jerry-picker/"/>
+        <meta property="og:image" content="http://katzgrau.github.io/jerry-picker/assets/jerry-square.jpg" />
     </head>
     <body>
         <div id="main" ng-app="jerry" ng-cloak>
