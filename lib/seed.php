@@ -4,9 +4,21 @@
 //  probably shouldn't be spending time on on it while I let more
 //  important things wait
 
+$search_term = 'Grateful Dead';
 $rows   = 1000;
 $sleep_time = .2 * 1000000;
-$q      = "https://archive.org/advancedsearch.php?q=creator%3A%22Grateful+Dead%22&output=json&rows=$rows";
+
+
+if($argc > 1) {
+    $search_term = urlencode($argv[1]);
+}
+
+if($argc > 2) {
+    $rows = intval($argv[2]);
+}
+
+$q = "https://archive.org/advancedsearch.php?q=creator%3A%22{$search_term}%22&output=json&rows=$rows";
+$output_file = preg_replace('/[^\w]+/', '-', strtolower($search_term));
 
 $payload = file_get_contents($q);
 $payload = json_decode($payload);
@@ -93,6 +105,6 @@ foreach ($shows as $show) {
     usleep($sleep_time);
 }
 
-echo "Imported $show_count shows, $track_count tracks total";
-file_put_contents(dirname(__FILE__) . '/../assets/data/grateful-dead.json', json_encode($list));
+echo "Imported $show_count shows, $track_count tracks total\n";
+file_put_contents(dirname(__FILE__) . "/../assets/data/{$output_file}.json", json_encode($list));
 

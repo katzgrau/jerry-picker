@@ -172,7 +172,6 @@ body {
     background-color: #212121;
     padding: 20px;
     font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
-    text-align: center;
     color: rgb(223, 224, 230);
 }
 
@@ -195,4 +194,16 @@ body {
 
 .quick-filter:hover {
     color: #E91E63;
+}
+
+.player-timeline {
+    position: relative;
+    background-color: #111;
+    margin-bottom:10px;
+    cursor: pointer;
+}
+
+.player-timeline-progress {
+    height: 8px;
+    background-color: #E91E63;
 }

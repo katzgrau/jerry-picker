@@ -19,9 +19,15 @@ $index = Index::instance();
  */
 $index->route('/?', 'index');
 
+foreach (glob("assets/data/*.json") as $filename) {
+    $filename = str_replace('.json', '', basename($filename));
+    $index->route("/$filename", 'index');
+}
+
 /* Config */
 $index->config('site_name', '');
 $index->config('site_url', '');
+$index->config('default_artist_slug', 'grateful-dead');
 
 /**
  * index.php, maybe the most portable micro MVC framework. It

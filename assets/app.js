@@ -11,14 +11,15 @@ angular.module('jerry', [])
         playingIndex: null,
         isPaused: false,
         selectedIndex: null,
-        notification: null
+        notification: null,
+        progress: '50'
     }
 
     $scope.soundReady = false;
     $scope.currentSound = null;
 
     // Search-related
-    $scope.searchIndexName = 'dead';
+    $scope.searchIndexName = window.artist_slug;
     $scope.searchIndexFields = ['title', 'show.location', 'show.title', 'show.date'];
     $scope.searchIndex = null;
 
@@ -148,6 +149,10 @@ angular.module('jerry', [])
         $scope.play($scope.data.playingIndex - 1);
     }
 
+    $scope.seek = function(e, el) {
+        console.log(e, el)
+    }
+
     $scope.init = function() {
         $scope.data.notification = 'Indexing tracks ...';
         var t, process = function(data) {
@@ -171,7 +176,7 @@ angular.module('jerry', [])
         if (window.bootstrap) {
             process(window.bootstrap);
         } else {
-            $http.get('/assets/data/grateful-dead.json')
+            $http.get('/assets/data/' + window.artist_slug + '.json')
                 .success(function(data) {
                     process(data);
                 });
@@ -265,7 +270,7 @@ angular.module('jerry', [])
 
     var tokenize = function(string) {
         var m = string.match(/[\d\w]+/g);
-        if (m.length) {
+        if (m && m.length) {
             return m;
         } else {
             return [];
