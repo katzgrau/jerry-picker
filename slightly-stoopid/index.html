@@ -2,7 +2,195 @@
     <head>
         <title>Search and Listen to Live Grateful Dead | Jerry Picker</title>
         <meta name="description" content="Search over and listen to a huge collection of live Grateful Dead recordings">
-        <link href="assets/app.css" media="screen" rel="stylesheet" />
+        <style>
+            body {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+#main, #left, #right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+#left {
+    background: url(../assets/jerrypicker.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    right: auto;
+    width: 40%;
+}
+
+#right {
+    background-color: #212121;
+    left: auto;
+    width: 60%;
+    box-sizing: border-box;
+    padding: 55px 10px 0px 10px;
+    overflow-y: scroll;
+}
+
+#left .title-wrap {
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, .60);
+    padding: 15px;
+}
+
+#left .title-wrap > * {
+    text-align: right;
+}
+
+#left .title, #left .sub {
+    font-size: 60px;
+    font-weight: bold;
+    text-shadow: 1px 1px #222;
+    color: white;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+#left .sub {
+    font-size: 30px;
+    font-weight: normal;
+    padding-left: 100px;
+}
+
+#right input {
+    border: 1px solid #616161;
+    font-size: 20px;
+    color: #999;
+    padding: 5px 5px 5px 15px;
+    width: 100%;
+    background-color: #616161;
+    border-radius: 2px;
+}
+
+.search-pane {
+    position: fixed;
+    top: 0;
+    left: 40%;
+    right: 0;
+    padding: 10px;
+    background-color: #212121;
+}
+
+.results {
+    padding-bottom: 75px;
+}
+
+.results-count {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    width: 65px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.results ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.results table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.results table tr {
+    margin: 0;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    background-color: rgb(18,19,20);
+    border-bottom: 1px solid rgb(34,35,38);
+    color: rgb(223, 224, 230);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.results table tr .play-sprite {
+    display: inline-block;
+    padding: 0 5px 0 10px;
+    visibility: hidden;
+    font-size: 30px;
+    color: rgb(62,62,64);
+}
+
+.results table tr .play-sprite.active {
+    visibility: visible;
+    color: #E91E63;
+}
+
+.results table tr td {
+    padding: 3px 0 3px 0;
+    border: none;
+    overflow: hidden;
+    text-align: center;
+}
+
+.results table tr:hover, .results table tr.highlight  {
+    background-color: rgb(28, 28, 31);
+}
+
+.results table tr:hover .play-sprite {
+    visibility: visible;
+}
+
+.results table tr .play-sprite:hover {
+    color: rgb(223, 224, 230);
+}
+
+.results table td.play {
+    width: 50px;
+}
+
+.results table td.title {
+    width: calc(60% - 50px);
+    text-align: left;
+}
+
+.results table td.date {
+    width: calc(20% - 50px);
+}
+
+.results table td.location {
+    width: calc(20% - 50px);
+    text-align: right;
+}
+
+#right .player {
+    position: fixed;
+    left: 40%;
+    bottom: 0px;
+    right: 0px;
+    width: 60%;
+    background-color: #212121;
+    padding: 20px;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    color: rgb(223, 224, 230);
+}
+
+.player .loading {
+    display: none;
+}
+
+#right .notification {
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: rgb(223, 224, 230);
+    padding: 40px;
+}        </style>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" media="screen" rel="stylesheet" />
         <meta property="og:title" content="Jerry Picker: Search and listen to live Grateful Dead shows" />
         <meta property="og:site_name" content="Jerry Picker"/>
