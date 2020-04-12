@@ -169,11 +169,15 @@ body {
     left: 40%;
     bottom: 0px;
     right: 0px;
+    width: 60%;
     background-color: #212121;
     padding: 20px;
     font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
-    text-align: center;
     color: rgb(223, 224, 230);
+}
+
+.player .loading {
+    display: none;
 }
 
 #right .notification {
@@ -181,18 +185,4 @@ body {
     text-align: center;
     color: rgb(223, 224, 230);
     padding: 40px;
-}
-
-.player-icon {
-    font-size: 30px;
-    padding-right: 10px;
-    cursor: pointer;
-}
-
-.player-icon:hover {
-    color: white;
-}
-
-.quick-filter:hover {
-    color: #E91E63;
 }

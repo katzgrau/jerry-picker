@@ -11,14 +11,17 @@ angular.module('jerry', [])
         playingIndex: null,
         isPaused: false,
         selectedIndex: null,
-        notification: null
+        notification: null,
+        progress: '50'
     }
+
+    $scope.player = null;
 
     $scope.soundReady = false;
     $scope.currentSound = null;
 
     // Search-related
-    $scope.searchIndexName = 'dead';
+    $scope.searchIndexName = window.artist_slug;
     $scope.searchIndexFields = ['title', 'show.location', 'show.title', 'show.date'];
     $scope.searchIndex = null;
 
@@ -98,55 +101,32 @@ angular.module('jerry', [])
         $scope.data.filter = '';
     }
 
-    $scope.play = function(idx) {
-        $scope.data.loadingIndex = idx;
-        $scope.data.playingIndex = null;
-
-        if ($scope.currentSound) {
-            $scope.currentSound.destruct();
-        }
-
-        var sm = soundManager.createSound({
-            id: 'mySound',
-            url: $scope.data.filtered[idx].url,
-            autoLoad: true,
-            autoPlay: true,
-            onload: function() {
-                $timeout(function() {
-                    $scope.currentSound = sm;
-                    $scope.data.loadingIndex = null;
-                }, 100)
-            },
-            onplay: function() {
-                $timeout(function() {
-                    $scope.data.playingIndex = idx;
-                    $scope.data.loadingIndex = null;
-                }, 100)
-            },
-            onfinish: function() {
-                $scope.play(idx + 1)
-            },
-            volume: 100
-        });
-    };
-
     $scope.pause = function() {
-        $scope.currentSound.pause();
+        $scope.player.pause();
         $scope.data.isPaused = true;
     };
 
     $scope.unPause = function() {
-        $scope.currentSound.play();
+        $scope.player.play();
         $scope.data.isPaused = false;
     };
 
-    $scope.next = function() {
-        $scope.play($scope.data.playingIndex + 1);
-    }
 
-    $scope.last = function() {
-        $scope.play($scope.data.playingIndex - 1);
-    }
+    $scope.play = function(idx) {
+        $scope.data.loadingIndex = idx;
+        $scope.data.playingIndex = null;
+
+        $scope.player.src = $scope.data.filtered[idx].url;
+        $scope.player.onended = function () {
+            console.log('hey');
+            $scope.play(idx + 1);
+        }
+        $scope.player.play();
+        $timeout(function() {
+            $scope.data.playingIndex = idx;
+            $scope.data.loadingIndex = null;
+        }, 100)
+    };
 
     $scope.init = function() {
         $scope.data.notification = 'Indexing tracks ...';
@@ -171,21 +151,23 @@ angular.module('jerry', [])
         if (window.bootstrap) {
             process(window.bootstrap);
         } else {
-            $http.get('/assets/data/grateful-dead.json')
+            $http.get('/assets/data/' + window.artist_slug + '.json')
                 .success(function(data) {
                     process(data);
                 });
         }
 
-        soundManager.setup({
-            url: 'assets/vendor/sound/swf/',
-            flashVersion: 9, // optional: shiny features (default = 8)
-            // optional: ignore Flash where possible, use 100% HTML5 mode
-            //preferFlash: false,
-            onready: function() {
-                $scope.soundReady = true;
-            }
+        GreenAudioPlayer.init({
+            selector: '.player',
+            stopOthersOnPlay: true,
+            enableKeystrokes: true,
+            showTooltips: true,
+            showDownloadButton: true
         });
+
+        document.querySelector('a.download__link').target = '_blank';
+
+        window.p = $scope.player = document.querySelector('.player audio');
     };
 
     $scope.trackSort = function (track1, track2){
@@ -263,17 +245,27 @@ angular.module('jerry', [])
         }
     };
 
+    var stopWords = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"]
+        .reduce((m, el) => { m[el] = true; return m; }, {}); // turn into a hash of el => true
+
+    var stopFilter = function(tokens) {
+        return tokens; // tempoarily disabled because the search failed for "further on down the road" (jack johnson) which happened to be a stop word
+        return tokens.filter(function(token) {
+            return !stopWords[token];
+        });
+    }
+
     var tokenize = function(string) {
-        var m = string.match(/[\d\w]+/g);
-        if (m.length) {
-            return m;
+        var m = string.toLowerCase().match(/[\d\w]+/g);
+        if (m && m.length) {
+            return stopFilter(m);
         } else {
             return [];
         }
     }
 
     var analyze = function(term) {
-        return term.toLowerCase();
+        return stemmer(term);
     }
 
     var grabField = function(fieldName, obj) {
