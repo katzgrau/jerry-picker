@@ -13,6 +13,8 @@
         <meta property="og:url" content="http://katzgrau.github.io/jerry-picker/"/>
         <meta property="og:image" content="http://katzgrau.github.io/jerry-picker/assets/jerry-square.jpg" />
         <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/greghub/green-audio-player/dist/css/green-audio-player.min.css">
+        <script src="https://cdn.jsdelivr.net/gh/greghub/green-audio-player/dist/js/green-audio-player.min.js"></script>
     </head>
     <body>
         <div id="main" ng-app="jerry" ng-cloak>
@@ -22,7 +24,7 @@
                 </div>
                 <div class="title-wrap">
                     <div class="title">Jerry Picker</div>
-                    <div class="sub">A dumb hack for sifting through the best of live dead songs</div>
+                    <div class="sub">A hack for sifting through the best of live dead songs</div>
                 </div>
             </div>
             <div id="right" ng-controller="MainCtrl">
@@ -51,28 +53,23 @@
                     </table>
                 </div>
                 <div class="player">
-                    <div class="player-timeline" ng-click="seek($event, this)">
-                        <div class="player-timeline-progress" style="width:{{data.progress}}%;"></div>
-                    </div>
-                    <span class="player-icon" ng-click="last()"><i class="fa fa-fast-backward"></i></span>
-                    <span class="player-icon" ng-click="next()"><i class="fa fa-fast-forward"></i></span>
-                    <span class="player-icon" ng-click="pause()" ng-show="!data.isPaused" ng-click="pause()"><i class="fa fa-pause"></i></span>
-                    <span class="player-icon" ng-click="unPause()" ng-show="data.isPaused"><i class="fa fa-play"></i></span>
-                    <span class="player-icon" ng-click="stop()" ng-show="data.playingIndex"><i class="fa fa-stop"></i></span>
+                    <audio>
+                        <source type="audio/mpeg">
+                    </audio>
                 </div>
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.js"></script>
-        <script src="/assets/vendor/sound/script/soundmanager2-nodebug-jsmin.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
         <?php if(index_config('is_build')): ?>
-        <script>window.bootstrap = <?php readfile("assets/data/{$artist_slug}.json") ?></script>
+        <script>/*fi*/ window.bootstrap = <?php readfile("assets/data/{$artist_slug}.json") ?></script>
         <?php endif; ?>
         <script>window.artist_slug = <?php echo json_encode($artist_slug) ?></script>
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css" />
         <!--[if lt IE 9]>
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.ie.min.css" />
         <![endif]-->
+        <script src="/assets/vendor/script/english-stemmer.js"></script>
         <script src="/assets/app.js"></script>
         <style>
             .left .github-fork-ribbon {

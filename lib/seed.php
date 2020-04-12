@@ -3,6 +3,8 @@
 //  spaghetti php. I'm just being lazy since this is a hack and I
 //  probably shouldn't be spending time on on it while I let more
 //  important things wait
+ini_set("memory_limit", "-1"); // lots of tracks = lots of memory
+set_time_limit(0);
 
 $search_term = 'Grateful Dead';
 $rows   = 1000;
