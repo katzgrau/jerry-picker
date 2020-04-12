@@ -6,10 +6,10 @@ can add your own.
 
 ## Running Locally
 
-`php -S 0.0.0.0:8080 # requires php 5+`
+`$ php -S 0.0.0.0:8080 # requires php 5+`
 
 Then open a browser to `http://localhost:8080` and you'll see a rough
-approximation of a Spotify player (even "rough approximation" is putting it very nicely).
+approximation of a Spotify player.
 
 ## Adding Artists/Track Data
 
@@ -17,7 +17,7 @@ You can add support for new artists (or more tracks for existing artists)
 by running the seed script. To add "Tedeschi Trucks Band" for example, you can
 just run:
 
-`php lib/seed "Tedeschi Trucks Band"`
+`$ php lib/seed "Tedeschi Trucks Band"`
 
 And it'll import track data and store them in `assets/data/tedeschi-trucks-band.json`
 
@@ -26,7 +26,7 @@ bands exceeds the show count available on Archive.org anyway. But for the
 Grateful Dead, you might need to raise that limit with and optional second
 parameter:
 
-`php lib/seed "Tedeschi Trucks Band" 2000`
+`$ php lib/seed "Tedeschi Trucks Band" 2000`
 
 Once this is done, you can start the server (see 'Running Locally' above)
 and just visit:
@@ -77,10 +77,6 @@ Special thanks:
 
 * Porter word stemmer: https://github.com/kristopolous/Porter-Stemmer
 * Audio player: https://github.com/greghub/green-audio-player
-
-The media playing ability is currently attrocious and I plan to resolve that.
-Options for for portable audio playing were limited in 2015. 2020 of progress
-should yield some better and perhaps native options.
 
 ### 2015/2016:
 

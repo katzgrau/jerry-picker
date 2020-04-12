@@ -54,10 +54,14 @@ foreach ($shows as $show) {
         }
     }
 
+    print_r($show);
+
     if (property_exists($show, 'coverage')
         && is_array($show->coverage)
         && count($show->coverage) > 0) {
         $item['location'] = $show->coverage[0];
+    } elseif (property_exists($show, 'coverage') && is_string($show->coverage)) {
+        $item['location'] = $show->coverage;
     } else {
         $item['location'] = 'Unknown Location';
     }
