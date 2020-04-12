@@ -60,7 +60,7 @@ angular.module('jerry', [])
 
     $scope.transitionSearch = function(phrase) {
         var timer = bench.timer('Transition search on ' + phrase);
-        var songs = phrase.toLowerCase().split('>'), match = true, results = [];
+        var songs = phrase.toLowerCase().split('>'), match = true, results = [], seen = {};
 
         for (var i = 0; i < songs.length; i++) {
             songs[i] = songs[i].trim().toLowerCase();
@@ -84,7 +84,9 @@ angular.module('jerry', [])
 
             if (match) {
                 for(var i = 0; i < songs.length; i++) {
-                    results.push($scope.data.tracks[t + i]);
+                    if (!seen[$scope.data.tracks[t + i].url])
+                        results.push($scope.data.tracks[t + i]);
+                    seen[$scope.data.tracks[t + i].url] = true;
                 }
             }
 
@@ -129,8 +131,8 @@ angular.module('jerry', [])
     };
 
     $scope.init = function() {
-        $scope.data.notification = 'Indexing tracks ...';
-        var t, process = function(data) {
+        $scope.data.notification = 'Indexing tracks, give it a few seconds to complete ...';
+        var t, seen = {}, process = function(data) {
             angular.copy(data, $scope.data.shows);
 
             for (var i in $scope.data.shows) {
@@ -139,7 +141,10 @@ angular.module('jerry', [])
                 for (var j in $scope.data.shows[i].setlist) {
                     t = $scope.data.shows[i].setlist[j];
                     t.show = $scope.data.shows[i];
-                    $scope.data.tracks.push(t)
+                    if (!seen[t.url]) {
+                        $scope.data.tracks.push(t);
+                    }
+                    seen[t.url] = true;
                 }
             }
 
