@@ -1,7 +1,7 @@
 # Jerry Picker
 
 Jerry Picker is a tool for combing through and playing Grateful Dead tracks
-hosted on Archive.org. A handful of other artists are supported to, and you
+hosted on Archive.org. A handful of other artists are supported too, and you
 can add your own.
 
 ## Running Locally
